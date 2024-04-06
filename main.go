@@ -9,9 +9,9 @@ import (
 )
 
 const (
-	nCities   = 40
-	nIter     = 1000000
-	nM        = 300
+	nCities   = 50
+	nIter     = 10000000
+	nM        = 1000
 	deltaBeta = 0.1
 )
 
