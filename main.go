@@ -9,10 +9,10 @@ import (
 )
 
 const (
-	nCities   = 50
+	nCities   = 40
 	nIter     = 1000000
-	nM        = 200
-	deltaBeta = 0.5
+	nM        = 300
+	deltaBeta = 0.1
 )
 
 var cities [][2]float64
@@ -23,7 +23,7 @@ func init() {
 
 	T = make([]float64, nM+1)
 	for m := 0; m <= nM; m++ {
-		T[m] = 1 / float64((m+1)*nM)
+		T[m] = 1 / float64((m+1)*nM) * deltaBeta
 	}
 
 	cities = make([][2]float64, nCities)
@@ -56,6 +56,8 @@ func main() {
 		}
 	}
 
+	fmt.Println("Starting simulated annealing...")
+
 	for iter := 0; iter < nIter; iter++ {
 		dists := make([]float64, nM)
 		for m := 0; m < nM; m++ {
@@ -82,7 +84,14 @@ func main() {
 				tempPath[m], tempPath[m+1] = tempPath[m+1], tempPath[m]
 			}
 		}
+
+		// Print progress
+		if iter%(nIter/100) == 0 {
+			fmt.Printf("Progress: %d%%\n", (iter*100)/nIter)
+		}
 	}
+
+	fmt.Println("Simulated annealing completed.")
 
 	// Write the final path to the file
 	file, err := os.Create("/Users/kotaro/Desktop/MCMC_2d.txt")
@@ -97,4 +106,6 @@ func main() {
 			panic(err)
 		}
 	}
+
+	fmt.Println("Result written to /Users/kotaro/Desktop/MCMC_2d.txt.")
 }
